@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Number Guessing Game</title>
+	<link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:wght@400;700&amp;family=Raleway:wght@400;600;700&amp;display=swap" rel="stylesheet">
+	<style>
+		@font-face {
+			font-family: gameFont;
+			src: url(game.ttf);
+		}
+		html {
+			font-family:gameFont;
+		}
+		body {
+			background-color: black;
+			font-family:gameFont;
+			width: 50%;
+			max-width: 800px;
+			min-width: 480px;
+			margin: 0 auto;
+			}
+			.Row {
+			display: table;
+			width: 100%; /*Optional*/
+			table-layout: fixed; /*Optional*/
+			border-spacing: 10px; /*Optional*/
+		}
+		.Column {
+			display: table-cell;
+			color: white ;
+		}
+		button,input{
+			font-family: gameFont;
+		}
+		.guessField{
+			background-color: black;
+			border: 3px  solid white;
+			width: 100px;
+			height: 70px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="Row">
+		<button style="text-align: left;color: black;font-size: 24px;" class="Column" id="again"> AGAIN </button>
+		<p style="text-align: right;font-size: 24px;" class="Column">&lt; Between 1 - 20 &gt;</p>
+	</div>
+	
+	<center>
+		<h1 style="font-size: 48px;color: white;">Guess My Number!</h1>
+	</center>
+	<hr style="height:5px;background-color: white;">
+
+
+	<div class="Row">
+		<div class="Column" id="again"> <div class="form">
+			<input type = "text" id = "guessField" style="text-align: center; font-size: 24px; color: white;" class = "guessField">
+			<br>
+			<input type = "submit" style="height: 50px;width: 110px;  font-size: 24px;" value = "CHECK!"
+				class = "guessSubmit" id = "submitguess">
+		</div>
+		</div>
+		<div class="Column"><div id="no" style="color: white;font-size: 22px;">⛔ NO NUMBER</div>
+		<br>
+		<div id="score" style="color: white;font-size: 22px;">0</div>
+		<br>
+		<div id="highScore" style="color: white;font-size: 22px;">0</div>
+	</div>
+	</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type = "text/javascript">
+	$('#no').hide();
+	$("#again").click(function(){
+		location = window.location;
+	});
+	var score=0,highest=0;
+	highest=localStorage.getItem("highscore")==null?0:localStorage.getItem("highscore");
+	// console.log(highest);
+	// random value generated
+	var y = Math.floor(Math.random() * 20 + 1);
+	
+	// counting the number of guesses
+	// made for correct Guess
+	var guess = 1;
+	$('#score').text("💯 SCORE : "+score);
+	$('#highScore').text("🏅 HIGHEST : "+highest);
+	document.getElementById("submitguess").onclick = function(){
+	
+// number guessed by user	
+var x = document.getElementById("guessField").value;
+if(x==""){
+	alert("NO NUMBER");
+	$('#no').show();
+	return;
+}
+if(x == y)
+{	$('#no').hide();
+	alert("CONGRATULATIONS!!! YOU GUESSED IT RIGHT IN "
+			+ guess + " GUESS ! scored 5 points!");
+	score+=5;
+	// $('#score').text(score);
+	$('#score').text("💯 SCORE : "+score);
+	var b=highest;
+	console.log(score);
+	console.log(b);
+	if(b < score){
+		$('#highScore').text("🏅 HIGHEST : "+score);
+		localStorage.setItem("highscore",score);
+	}
+}
+else if(x > y) /* if guessed number is greater
+				than actual number*/
+{$('#no').hide();
+	
+		if(score>0){
+		score-=1;
+		alert("TOO HIGH! penalty score reduced by 1");}
+	else{
+		alert("TOO HIGH!");
+	}
+	guess++;
+	$('#score').text("💯 SCORE : "+score);
+	
+}
+else
+{	$('#no').hide();
+	if(score>0){
+		score-=1;
+		alert("TOO LOW! penalty score reduced by 1");}
+	else{
+		alert("TOO LOW!");
+	}
+	guess++;
+	$('#score').text("💯 SCORE : "+score);
+}
+}
+</script>
+</body>
+</html>					
